@@ -9,12 +9,12 @@ function App() {
 
   return (
     <BrowserRouter>
-      <MainLayout>
-        <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/movie/:id" element={<MovieDetail/>} />
-        </Routes>
-      </MainLayout>
+      <Routes>
+        <Route path="/" element={<MainLayout/>}>
+          <Route index element={<Home />} />
+          <Route path="/movie/:id" element={<MovieDetail />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   )
 }
