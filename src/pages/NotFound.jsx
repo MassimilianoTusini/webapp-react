@@ -5,7 +5,7 @@ export default function NotFound() {
     <div className="text-center my-5">
       <h1 className="display-3 text-danger fw-bold">404</h1>
       <p className="lead">Pagina non trovata</p>
-      <Link to="/" className="btn btn-primary">
+      <Link to="/" className="btn btn-outline-danger">
         Torna alla Home
       </Link>
     </div>

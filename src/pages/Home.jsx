@@ -26,10 +26,9 @@ export default function Home() {
 
     return (
         <>
-            <h2 className="text-center text-secondary mb-4">
-                <i>Scopri film e recensioni dal nostro database</i>
-            </h2>
-
+            <div className="pb-3 d-flex align-items-center w-100 justify-content-center">
+                <h2 className="text-secondary fw-light">Lista dei film disponibili</h2>
+            </div>
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 {movies.length > 0 ? (
                     renderMovies()

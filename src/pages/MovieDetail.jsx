@@ -2,13 +2,12 @@ import axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ReviewCard from "../components/ReviewCard";
+import ReviewForm from "../components/ReviewForm";
 
 export default function MovieDetail() {
 
     const { id } = useParams();
-
     const redirect = useNavigate();
-
     const [movie, setMovie] = useState();
 
     const fetchMovie = () => {
@@ -16,7 +15,7 @@ export default function MovieDetail() {
             .get(`http://localhost:3000/api/movies/${id}`)
             .then((res) => setMovie(res.data))
             .catch((error) => {
-                console.log(error);
+                console.error(error);
                 if (error.status === 404) redirect("/404");
             });
     };
@@ -34,40 +33,68 @@ export default function MovieDetail() {
     };
 
     return (
-        <>
-            <header id="movie" className="mb-3 pb-3 text-white">
-                <div className="d-flex mb-3 justify-content-center">
-                    <img
-                        src={movie?.image}
-                        alt={movie?.title}
-                        className="img-fluid rounded shadow-sm"
-                        style={{ maxWidth: "300px" }}
-                    />
+        <div className="container py-5 text-light">
+            {movie && (
+                <div className="row g-4 justify-content-center">
+ 
+                    <div className="col-12 col-md-4 d-flex justify-content-center">
+                        <div
+                            className="poster-wrapper shadow-lg rounded overflow-hidden"
+                            style={{
+                                maxWidth: "320px"                             
+                            }}
+                        >
+                            <img
+                                src={movie.image}
+                                alt={movie.title}
+                                className="img-fluid"
+                                style={{
+                                    width: "100%",
+                                    height: "460px",
+                                    objectFit: "contain",
+                                    backgroundColor: "#000",
+                                }}
+                            />
+                        </div>
+                    </div>
+
+
+                    <div className="col-12 col-md-8">
+                        <h2 className="fw-bold text-warning mb-3">{movie.title}</h2>
+                        <h5 className="text-light mb-3">
+                            <i>Diretto da: {movie.director}</i>
+                        </h5>
+
+                        <p className="lead text-light opacity-75 mb-4">{movie.abstract}</p>
+
+                        <p className="text-secondary mb-3">
+                            <strong>Genere:</strong> {movie.genre} <br />
+                            <strong>Anno:</strong> {movie.release_year}
+                        </p>
+
+                        <Link
+                            to="/"
+                            className="btn btn-outline-warning mt-3 px-4 fw-semibold"
+                        >
+                            Torna alla Home
+                        </Link>
+                    </div>
                 </div>
-                <h1 className="mb-2">{movie?.title}</h1>
-                <h4 className="text-muted mb-3">
-                    <i>Directed by {movie?.director}</i>
-                </h4>
-                <p>{movie?.abstract}</p>
-                <p className="text-secondary">
-                    Genre: <strong>{movie?.genre}</strong> - Year: <strong>{movie?.release_year}</strong>
-                </p>
-            </header>
+            )}
 
-            <section id="reviews">
-                <header className="d-flex justify-content-between align-items-center mb-3 text-white">
-                    <h4>Community reviews</h4>
+            <section id="reviews" className="mt-5">
+                <header className="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-2">
+                    <h4 className="text-warning mb-0">Recensioni della Community</h4>
                 </header>
-                {renderReviews()}
+                <div className="row">
+                    <div className="col-12 col-md-10 mx-auto">
+                        {renderReviews()}
+                        {movie && (
+                            <ReviewForm movieId={movie.id} reloadReviews={fetchMovie} />
+                        )}
+                    </div>
+                </div>
             </section>
-
-            <footer className="pt-3 mt-4 d-flex justify-content-end">
-                <Link className="btn btn-secondary" to="/">
-                    Back to home
-                </Link>
-            </footer>
-        </>
+        </div>
     );
-};
-
-
+}
