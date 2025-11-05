@@ -26,7 +26,7 @@ export default function Home() {
 
     return (
         <>
-            <div className="pb-3 d-flex align-items-center w-100 justify-content-center">
+            <div className="pb-3 text-center">
                 <h2 className="text-secondary fw-light">Lista dei film disponibili</h2>
             </div>
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
