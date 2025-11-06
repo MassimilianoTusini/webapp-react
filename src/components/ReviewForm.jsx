@@ -18,7 +18,7 @@ export default function ReviewForm({ movieId, reloadReviews }) {
     const apiUrl = `http://localhost:3000/api/movies/${movieId}/reviews`;
 
     const handleSubmit = (e) => {
-        e.preventDefault(),
+        e.preventDefault()
 
             axios.post(apiUrl, formData, {
                 headers: { "Content-type": "application/json" },
@@ -69,7 +69,7 @@ export default function ReviewForm({ movieId, reloadReviews }) {
                         />
                     </div>
                     <div className="d-flex justify-content-end">
-                        <button type="sumbit" className="btn btn-warning text-dark fw-semibold">Invia Recensione</button>
+                        <button type="submit" className="btn btn-warning text-dark fw-semibold">Invia Recensione</button>
                     </div>
                 </form>
             </div>

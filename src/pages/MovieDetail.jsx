@@ -3,21 +3,28 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ReviewCard from "../components/ReviewCard";
 import ReviewForm from "../components/ReviewForm";
+import { useGlobal } from "../contexts/GlobalContext";
 
 export default function MovieDetail() {
 
+    const { setIsLoading } = useGlobal()
     const { id } = useParams();
     const redirect = useNavigate();
     const [movie, setMovie] = useState();
 
     const fetchMovie = () => {
+        setIsLoading(true);
+
+        setTimeout(() => {
         axios
             .get(`http://localhost:3000/api/movies/${id}`)
             .then((res) => setMovie(res.data))
             .catch((error) => {
                 console.error(error);
-                if (error.status === 404) redirect("/404");
-            });
+                if (error.response?.status === 404) redirect("/404");
+            })
+            .finally(() => { setIsLoading(false) })
+        }, 1000)
     };
 
     useEffect(fetchMovie, [id]);
@@ -36,12 +43,12 @@ export default function MovieDetail() {
         <div className="container py-5 text-light">
             {movie && (
                 <div className="row g-4 justify-content-center">
- 
+
                     <div className="col-12 col-md-4 d-flex justify-content-center">
                         <div
                             className="poster-wrapper shadow-lg rounded overflow-hidden"
                             style={{
-                                maxWidth: "320px"                             
+                                maxWidth: "320px"
                             }}
                         >
                             <img

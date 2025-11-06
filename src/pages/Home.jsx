@@ -1,18 +1,25 @@
 import axios from "axios";
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import MovieCard from "../components/MovieCard";
+import { useGlobal } from "../contexts/GlobalContext";
 
 export default function Home() {
 
+    const { setIsLoading } = useGlobal()
     const [movies, setMovies] = useState([]);
 
-    const fecthBooks = () => {
-        axios.get('http://localhost:3000/api/movies')
-            .then(res => setMovies(res.data))
-            .catch(err => { console.log(err) })
+    const fetchMovies = () => {
+        setIsLoading(true);
+
+        setTimeout(() => {
+            axios.get('http://localhost:3000/api/movies')
+                .then(res => setMovies(res.data))
+                .catch(err => { console.log(err) })
+                .finally(() => { setIsLoading(false) })
+        }, 1000)
     }
 
-    useEffect(fecthBooks, []);
+    useEffect(fetchMovies, []);
 
     const renderMovies = () => {
         return movies.map(movie => {
